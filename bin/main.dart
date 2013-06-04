@@ -16,16 +16,3 @@ void main() {
     start(public: 'web', port: port);
 }
 
-listCats(Request req, Response res) {
-  db.query('SELECT * FROM cats').map((row) => row.name).toList().then((list) {
-    res.json(list);
-  });
-}
-
-createCat(Request req, Response res) {
-  var name = req.params['name'];
-  db.execute('INSERT INTO cats (name) VALUES (?)', [name])
-  .then((_) {
-    res.redirect('/index.html', 303);
-  });
-}
