@@ -17,8 +17,7 @@ void main() {
       print('HTTP server started');
       app.post('/cats', createCat);
       app.get('/cats', listCats);
-    })
-    .catchError((e) => print('Error starting HTTP server $e'));
+    });
   })
   .catchError((e) => print("error: $e"));
 }
