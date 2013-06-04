@@ -46,8 +46,11 @@ packages:
     source: hosted
     version: "0.5.11+1"
   start:
-    description: start
-    source: hosted
+    description:
+      ref: null
+      resolved-ref: "406957d98eb9889dcdbf9e85195223d825bfa264"
+      url: "git://github.com/sethladd/start.git"
+    source: git
     version: "0.0.5"
   unittest:
     description: unittest
