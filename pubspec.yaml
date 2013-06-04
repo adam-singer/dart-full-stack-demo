@@ -1,4 +1,7 @@
 name: dart_server
 description: A sample command-line application
+dependencies:
+  postgresql: any
+
 #dependencies:
 #  unittest: any
