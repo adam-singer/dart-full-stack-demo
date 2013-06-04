@@ -32,10 +32,15 @@ createCat(Request req, Response res) {
   var name = req.params['name'];
   db.execute('INSERT INTO cats (name) VALUES (@name)', {'name':name})
   .then((_) {
-    res.status(201);
+    res
+     ..status(201)
+     ..close();
+    
   })
   .catchError((e) {
     print("Error with insert: $e");
-    res.status(500);
+    res
+      ..status(500)
+      ..close();
   });
 }
