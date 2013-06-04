@@ -15,8 +15,8 @@ void main() {
     print('DB connected, now starting up web server');
     start(public: 'web', port: port).then((app) {
       print('HTTP server started');
-      app.post('/cats', createCat);
-      app.get('/cats', listCats);
+//      app.post('/cats', createCat);
+//      app.get('/cats', listCats);
     });
   });
 }
