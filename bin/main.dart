@@ -30,8 +30,11 @@ listCats(Request req, Response res) {
 
 createCat(Request req, Response res) {
   HttpBodyHandler.processRequest(req.input)
-    .then((HttpBody body) => body.body['name'])
-    .then((name) => db.execute('INSERT INTO cats (name) VALUES (@name)', {'name':name}))
+    .then((HttpBody body) {
+      print(body.body);
+      return body.body['name'];
+    })
+    .then((name) => db.execute('INSERT INTO cats (name) VALUES (@n)', {'n':name}))
     .then((_) {
       res
        ..status(201)

@@ -41,10 +41,6 @@ packages:
     description: postgresql
     source: hosted
     version: "0.2.6"
-  query_string:
-    description: query_string
-    source: hosted
-    version: "1.0.1"
   source_maps:
     description: source_maps
     source: hosted
