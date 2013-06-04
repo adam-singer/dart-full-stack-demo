@@ -12,6 +12,7 @@ void main() {
   connect(Platform.environment['DATABASE_URL'])
   .then((conn) => db = conn)
   .then((_) {
+    print('DB connected, now starting up web server');
     start(public: 'web', port: port).then((app) {
       app.post('/cats', createCat);
       app.get('/cats', listCats);
