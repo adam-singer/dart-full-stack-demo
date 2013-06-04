@@ -30,8 +30,12 @@ listCats(Request req, Response res) {
 
 createCat(Request req, Response res) {
   var name = req.params['name'];
-  db.execute('INSERT INTO cats (name) VALUES (?)', [name])
+  db.execute('INSERT INTO cats (name) VALUES (:name)', {'name':name})
   .then((_) {
-    res.redirect('/index.html', 303);
+    res.status(201);
+  })
+  .catchError((e) {
+    print("Error with insert: $e");
+    res.status(500);
   });
 }
