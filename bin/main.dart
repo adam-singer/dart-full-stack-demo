@@ -12,26 +12,25 @@ void main() {
   connect(Platform.environment['DATABASE_URL'])
   .then((conn) => db = conn)
   .then((_) {
-    print('DB connected, now starting up web server');
-    return start(public: 'web', port: port).then((app) {
-      print('HTTP server started');
-      app.post('/cats', createCat);
-      app.get('/cats', listCats);
+    HttpServer.bind('0.0.0.0', port).then((HttpServer server){
+      print('Server started on port: ${port}');
+      server.listen(handleRequest)
+      ..onError((e) => print('HttpError: $e'))
+      ..onDone(() => print('done.'));
     });
-  })
-  .catchError((e) => print("error: $e"));
-}
-
-listCats(Request req, Response res) {
-  db.query('SELECT * FROM cats').map((row) => row.name).toList().then((list) {
-    res.json(list);
   });
 }
 
-createCat(Request req, Response res) {
-  var name = req.params['name'];
-  db.execute('INSERT INTO cats (name) VALUES (?)', [name])
-  .then((_) {
-    res.redirect('/index.html', 303);
-  });
+void handleRequest(HttpRequest request) {
+      db.query("select 'oi you!'").toList().then((result) {
+        reply(request, 'Connected: $result');
+        db.close();
+      });
+}
+
+void reply(HttpRequest request, msg) {
+  request.response
+    //..headers.set(HttpHeaders.CONTENT_TYPE, 'text/plain')
+    ..writeln(msg)
+    ..close();
 }
