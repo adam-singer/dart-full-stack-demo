@@ -30,7 +30,7 @@ listCats(Request req, Response res) {
 
 createCat(Request req, Response res) {
   var name = req.params['name'];
-  db.execute('INSERT INTO cats (name) VALUES (:name)', {'name':name})
+  db.execute('INSERT INTO cats (name) VALUES (@name)', {'name':name})
   .then((_) {
     res.status(201);
   })
