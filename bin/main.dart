@@ -9,18 +9,11 @@ Connection db;
 void main() {
   var port = int.parse(Platform.environment['PORT']);
   
-  connect(Platform.environment['DATABASE_URL'])
-  .then((conn) => db = conn)
-  .then((_) {
-    print('DB connected, now starting up web server');
-    start(public: 'web', port: port).then((app) {
-      print('HTTP server started');
-      app.post('/cats', createCat);
-      app.get('/cats', listCats);
-    })
-    .catchError((e) => print('Error starting HTTP server $e'));
-  })
-  .catchError((e) => print("error: $e"));
+//  connect(Platform.environment['DATABASE_URL'])
+//  .then((conn) => db = conn)
+//  .then((_) {
+//    print('DB connected, now starting up web server');
+    start(public: 'web', port: port);
 }
 
 listCats(Request req, Response res) {
