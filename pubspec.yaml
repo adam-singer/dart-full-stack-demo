@@ -3,6 +3,7 @@ description: A sample command-line application
 dependencies:
   postgresql: any
   stream: any
+  web_ui: any
 
 #dependencies:
 #  unittest: any
