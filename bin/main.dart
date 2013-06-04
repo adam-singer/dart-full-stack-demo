@@ -29,6 +29,7 @@ listCats(Request req, Response res) {
 }
 
 createCat(Request req, Response res) {
+  print(req.header('Content-Type'));
   HttpBodyHandler.processRequest(req.input)
     .then((HttpBody body) {
       print(body.body);
