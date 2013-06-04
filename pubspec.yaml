@@ -5,6 +5,7 @@ dependencies:
   start:
     git: git://github.com/sethladd/start.git
   web_ui: any
+  query_string: any
 
 #dependencies:
 #  unittest: any
