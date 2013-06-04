@@ -6,7 +6,17 @@
   </head>
  
   <body>   
-    <p id="text">{{ hello }}</p>
+    <ul>
+      <template repeat="name in catNames">
+        <li>{{name}}</li>
+      </template>
+    </ul>
+    
+    <p>
+    <input type="text" name="name" id="cat-name">
+    <input type="button" on-click="submitCat()">
+    </p>
+    
     <script type="application/dart" src="app.dart"></script>
     <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
     <script src="packages/browser/dart.js"></script>
