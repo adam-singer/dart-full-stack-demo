@@ -1,50 +1,38 @@
-import 'dart:async';
-import 'dart:io';
-import 'dart:json' as JSON;
+library hello_static;
 
+import "package:start/start.dart";
 import 'package:postgresql/postgresql.dart';
+import 'dart:io';
 
-Future<Connection> pgconnect() {
+Connection db;
+
+void main() {
+  var port = int.parse(Platform.environment['PORT']);
   
-  var url = Platform.environment['DATABASE_URL'];
-
-  if (url == null)
-    url = 'postgres://testdb:password@localhost:5432/testdb';
-
-  return connect(url);
+  connect(Platform.environment['DATABASE_URL'])
+  .then((conn) => db = conn)
+  .then((_) {
+    print('DB connected, now starting up web server');
+    return start(public: 'web', port: port).then((app) {
+      print('HTTP server started');
+      app.post('/cats', createCat);
+      app.get('/cats', listCats);
+    })
+    .catchError((e) => print('Error starting HTTP server $e'));
+  })
+  .catchError((e) => print("error: $e"));
 }
 
-main() {
-  int defaultPort = 8080;
-  var portStr = Platform.environment['PORT'];
-  if (portStr == null)
-    portStr = "";
-  var port = int.parse(portStr, onError: (_) => defaultPort);
-  
-  HttpServer.bind('0.0.0.0', port).then((HttpServer server){
-    print('Server started on port: ${port}');
-    server.listen(handleRequest)
-      ..onError((e) => print('HttpError: $e'))
-      ..onDone(() => print('done.'));
+listCats(Request req, Response res) {
+  db.query('SELECT * FROM cats').map((row) => row.name).toList().then((list) {
+    res.json(list);
   });
 }
 
-void handleRequest(HttpRequest request) {
-    pgconnect().then((conn) {
-      conn.query("select 'oi you!'").toList().then((result) {
-        reply(request, 'Connected: $result');
-        conn.close();
-      });
-    }).catchError((error) {
-      var msg = 'Boom! $error';
-      print(msg);
-      reply(request, msg);
-    });
-}
-
-void reply(HttpRequest request, msg) {
-  request.response
-    //..headers.set(HttpHeaders.CONTENT_TYPE, 'text/plain')
-    ..writeln(msg)
-    ..close();
+createCat(Request req, Response res) {
+  var name = req.params['name'];
+  db.execute('INSERT INTO cats (name) VALUES (?)', [name])
+  .then((_) {
+    res.redirect('/index.html', 303);
+  });
 }
