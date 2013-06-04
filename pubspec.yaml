@@ -2,8 +2,7 @@ name: dart_server
 description: A sample command-line application
 dependencies:
   postgresql: any
-  start:
-    git: git://github.com/sethladd/start.git
+  start: any
   web_ui: any
 
 #dependencies:
