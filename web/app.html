@@ -6,10 +6,8 @@
   </head>
  
   <body>   
-    <ul>
-      <template repeat="name in catNames">
-        <li>{{name}}</li>
-      </template>
+    <ul template iterate="name in catNames">
+      <li>{{name}}</li>
     </ul>
     
     <p>

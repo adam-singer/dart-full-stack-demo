@@ -7,9 +7,11 @@ import 'dart:io';
 Connection db;
 
 void main() {
-  var port = int.parse(Platform.environment['PORT']);
+  var port = int.parse(Platform.environment['PORT'], onError: (_) => 8080);
+  var dbUrl = Platform.environment['DATABASE_URL'] != null ?
+      Platform.environment['DATABASE_URL'] : 'postgres://sethladd:@localhost:5432/sethladd';
   
-  connect(Platform.environment['DATABASE_URL'])
+  connect(dbUrl)
   .then((conn) => db = conn)
   .then((_) {
     print('DB connected, now starting up web server');
@@ -29,10 +31,8 @@ listCats(Request req, Response res) {
 }
 
 createCat(Request req, Response res) {
-  print(req.header('Content-Type'));
   HttpBodyHandler.processRequest(req.input)
     .then((HttpBody body) {
-      print(body.body);
       return body.body['name'];
     })
     .then((name) => db.execute('INSERT INTO cats (name) VALUES (@n)', {'n':name}))
